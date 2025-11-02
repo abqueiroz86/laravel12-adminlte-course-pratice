@@ -25,6 +25,19 @@ class UserController extends Controller
         return view('users.create');
     }
 
+    function store(Request $request)
+    {
+        $input = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:6',
+        ]);
+
+        User::create($input);
+
+        return redirect()->route('users.index')->with('success', 'User created successfully.');
+    }
+
     function edit(Request $request)
     {
         // Edit user logic here

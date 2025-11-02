@@ -9,6 +9,11 @@
 @section('content')
     <div class="card">
         <div class="card-body">
+            @session('success')
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endsession
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
