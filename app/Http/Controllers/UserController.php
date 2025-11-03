@@ -56,6 +56,33 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
 
+    function updateProfile(Request $request, User $user)
+    {
+        $input = $request->validate([
+            'type' => 'required',
+            'address' => 'nullable|string|max:255',
+        ]);
+
+        $user->profile()->updateOrCreate(
+            ['user_id' => $user->id],
+            $input
+        );
+
+        return redirect()->route('users.index')->with('success', 'User profile updated successfully.');
+    }
+
+    function updateInterests(Request $request, User $user)
+    {
+        $input = $request->validate([
+            'interests' => 'array',
+        ]);
+
+        $user->interests()->delete();
+        $user->interests()->createMany($input['interests'] ?? []);
+
+        return redirect()->route('users.index')->with('success', 'User interests updated successfully.');
+    }
+
     function delete(User $user)
     {
         $user->delete();

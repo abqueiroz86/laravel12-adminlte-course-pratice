@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <div class="card">
+    <div class="card col-md-11 mx-auto">
         <div class="card-body">
             @session('success')
                 <div class="alert alert-success">
