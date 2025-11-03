@@ -14,4 +14,8 @@
 
     @include('users.parts.profile')
 
+    <p></p>
+
+    @include('users.parts.roles')
+
 @endsection

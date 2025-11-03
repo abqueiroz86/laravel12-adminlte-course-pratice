@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -40,7 +41,8 @@ class UserController extends Controller
 
     function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        $roles = Role::all();
+        return view('users.edit', compact('user', 'roles'));
     }
 
     function update(Request $request, User $user)
@@ -81,6 +83,17 @@ class UserController extends Controller
         $user->interests()->createMany($input['interests'] ?? []);
 
         return redirect()->route('users.index')->with('success', 'User interests updated successfully.');
+    }
+
+    function updateRoles(Request $request, User $user)
+    {
+        $input = $request->validate([
+            'roles' => 'array',
+        ]);
+
+        $user->roles()->sync($input['roles'] ?? []);
+
+        return redirect()->route('users.index')->with('success', 'User roles updated successfully.');
     }
 
     function delete(User $user)
