@@ -38,13 +38,28 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
 
-    function edit(Request $request)
+    function edit(User $user)
     {
-        // Edit user logic here
+        return view('users.edit', compact('user'));
     }
 
-    function delete(Request $request)
+    function update(Request $request, User $user)
     {
-        // Delete user logic here
+        $input = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => 'exclude_if:password,null|string|min:6',
+        ]);
+
+        $user->update($input);
+
+        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+    }
+
+    function delete(User $user)
+    {
+        $user->delete();
+
+        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 }
