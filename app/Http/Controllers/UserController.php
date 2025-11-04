@@ -8,9 +8,15 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    function index()
+    function index( Request $request )
     {
-        $users = User::all();
+        $users = User::query();
+        $users->when($request->input('keyword'), function ($query, $keyword) {
+            $query->where('name', 'like', '%' . $keyword . '%')
+                  ->orWhere('email', 'like', '%' . $keyword . '%');
+        });
+
+        $users = $users->paginate(10);
 
         $breadcrumbs = [
                         ['label' => 'Home', 'route' => route('home')],

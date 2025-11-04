@@ -14,6 +14,14 @@
                     {{ session('success') }}
                 </div>
             @endsession
+
+            <form method="GET" action="{{ route('users.index') }}" class="mb-3">
+                <div class="input-group">
+                    <input type="text" name="keyword" class="form-control" placeholder="Search by name or email" value="{{ request('keyword') }}">
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                </div>
+            </form>
+
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
@@ -43,6 +51,9 @@
                     @endforeach
                 </tbody>
             </table>
+            
+            <p></p>
+            {{ $users->links() }}
         </div>
     </div>
 @endsection
